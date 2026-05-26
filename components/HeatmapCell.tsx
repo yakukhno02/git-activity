@@ -5,12 +5,7 @@ type HeatmapCellProps = {
     date: Date;
 };
 
-export default function HeatmapCell({
-                                        value,
-                                        opacity,
-                                        mode,
-                                        date,
-                                    }: HeatmapCellProps) {
+export default function HeatmapCell({value, opacity, mode, date,}: HeatmapCellProps) {
     let intensityClass = "";
 
     if (value === 0) {
