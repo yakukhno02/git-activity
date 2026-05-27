@@ -51,7 +51,7 @@ export default function HeatmapCell({value, opacity, mode, date,}: HeatmapCellPr
         <div
             title={`${date.toDateString()} - ${value} ${mode}`}
             className={`
-                w-4 h-4 rounded-sm
+                w-[15px] h-[15px] rounded-sm
                 transition-all duration-200
                 cursor-pointer
                 ${intensityClass}
