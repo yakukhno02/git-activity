@@ -1,4 +1,5 @@
 "use client";
+
 import { useMemo, useState } from "react";
 import HeatmapCell from "@/components/HeatmapCell";
 
@@ -9,9 +10,26 @@ export default function Home() {
             Array.from({ length: 365 }, (_, index) => ({
                 date: new Date(2026, 0, index + 1),
 
-                commits: Math.floor(Math.random() * 10),
-                prs: Math.floor(Math.random() * 5),
-                issues: Math.floor(Math.random() * 3),
+                commits:
+                    Math.random() < 0.6
+                        ? 0
+                        : Math.random() < 0.015
+                            ? 50
+                            : Math.floor(Math.random() * 6) + 1,
+
+                prs:
+                    Math.random() < 0.75
+                        ? 0
+                        : Math.random() < 0.01
+                            ? 30
+                            : Math.floor(Math.random() * 4) + 1,
+
+                issues:
+                    Math.random() < 0.8
+                        ? 0
+                        : Math.random() < 0.008
+                            ? 20
+                            : Math.floor(Math.random() * 3) + 1,
             })),
         []
     );
@@ -67,7 +85,14 @@ export default function Home() {
               {data.map((day, index) => {
                   const value = day[mode];
 
-                  const opacity = Math.min(value / (average * 2), 1);
+                  const maxValue = Math.max(
+                      ...data.map((day) => day[mode])
+                  );
+
+                  const opacity =
+                      value === 0
+                          ? 0
+                          : Math.log(value + 1) / Math.log(maxValue + 1);
 
                   return (
                       <HeatmapCell
