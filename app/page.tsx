@@ -3,10 +3,10 @@
 import { useMemo, useState } from "react";
 import HeatmapCell from "@/components/HeatmapCell";
 
+type Mode = "commits" | "prs" | "issues";
+
 export default function Home() {
-    const [mode, setMode] = useState<
-        "commits" | "prs" | "issues"
-    >("commits");
+    const [mode, setMode] = useState<Mode>("commits");
 
     const data = useMemo(
         () =>
@@ -37,11 +37,29 @@ export default function Home() {
         []
     );
 
+    const firstDay = data[0].date.getDay();
+
+    const shiftedDays = [
+        ...Array(firstDay).fill(null),
+        ...data,
+    ];
+
     const weeks = [];
 
-    for (let i = 0; i < data.length; i += 7) {
-        weeks.push(data.slice(i, i + 7));
+    for (let i = 0; i < shiftedDays.length; i += 7) {
+        weeks.push(shiftedDays.slice(i, i + 7));
     }
+
+    const maxValue = Math.max(
+        ...data.map((day) => day[mode])
+    );
+
+    const activeColor =
+        mode === "commits"
+            ? "green"
+            : mode === "prs"
+                ? "blue"
+                : "amber";
 
     return (
         <main className="min-h-screen bg-black text-white p-10">
@@ -57,7 +75,7 @@ export default function Home() {
                         ${
                         mode === "commits"
                             ? "bg-green-500 text-black"
-                            : "bg-zinc-800 text-white"
+                            : "bg-neutral-900 text-white"
                     }
                     `}
                 >
@@ -71,7 +89,7 @@ export default function Home() {
                         ${
                         mode === "prs"
                             ? "bg-blue-500 text-black"
-                            : "bg-zinc-800 text-white"
+                            : "bg-neutral-900 text-white"
                     }
                     `}
                 >
@@ -85,7 +103,7 @@ export default function Home() {
                         ${
                         mode === "issues"
                             ? "bg-amber-500 text-black"
-                            : "bg-zinc-800 text-white"
+                            : "bg-neutral-900 text-white"
                     }
                     `}
                 >
@@ -95,13 +113,33 @@ export default function Home() {
 
             <div className="flex gap-[3px] text-xs text-zinc-500 mb-2 ml-[55px] w-fit">
                 {weeks.map((week, index) => {
-                    const month = week[0].date.toLocaleString("en", {
-                        month: "short",
-                    });
+                    const firstRealDay = week.find(Boolean);
+
+                    if (!firstRealDay) {
+                        return (
+                            <div
+                                key={index}
+                                className="w-[15px]"
+                            />
+                        );
+                    }
+
+                    const month =
+                        firstRealDay.date.toLocaleString(
+                            "en",
+                            {
+                                month: "short",
+                            }
+                        );
+
+                    const previousWeek =
+                        index > 0
+                            ? weeks[index - 1].find(Boolean)
+                            : null;
 
                     const previousMonth =
-                        index > 0
-                            ? weeks[index - 1][0].date.toLocaleString(
+                        previousWeek
+                            ? previousWeek.date.toLocaleString(
                                 "en",
                                 {
                                     month: "short",
@@ -124,14 +162,18 @@ export default function Home() {
 
             <div className="flex gap-[3px] w-fit">
                 <div className="flex flex-col gap-[3px] text-xs text-zinc-500">
-                    <div className="h-[15px] flex items-center">Thu</div>
-                    <div className="h-[15px] flex items-center">Fri</div>
-                    <div className="h-[15px] flex items-center">Sat</div>
-                    <div className="h-[15px] flex items-center">Sun</div>
-                    <div className="h-[15px] flex items-center">Mon</div>
-                    <div className="h-[15px] flex items-center">Tue</div>
-                    <div className="h-[15px] flex items-center">Wed</div>
+                    {["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"].map(
+                        (day) => (
+                            <div
+                                key={day}
+                                className="h-[15px] flex items-center"
+                            >
+                                {day}
+                            </div>
+                        )
+                    )}
                 </div>
+
                 <div className="flex gap-[3px]">
                     {weeks.map((week, weekIndex) => (
                         <div
@@ -139,13 +181,16 @@ export default function Home() {
                             className="flex flex-col gap-[3px]"
                         >
                             {week.map((day, dayIndex) => {
-                                const value = day[mode];
+                                if (!day) {
+                                    return (
+                                        <div
+                                            key={dayIndex}
+                                            className="w-[15px] h-[15px]"
+                                        />
+                                    );
+                                }
 
-                                const maxValue = Math.max(
-                                    ...data.map(
-                                        (day) => day[mode]
-                                    )
-                                );
+                                const value = day[mode];
 
                                 const opacity =
                                     value === 0
@@ -155,10 +200,10 @@ export default function Home() {
 
                                 return (
                                     <HeatmapCell
-                                        key={dayIndex}
+                                        key={`${mode}-${dayIndex}-${weekIndex}`}
                                         value={value}
                                         opacity={opacity}
-                                        mode={mode}
+                                        color={activeColor}
                                         date={day.date}
                                     />
                                 );
