@@ -93,7 +93,36 @@ export default function Home() {
                 </button>
             </div>
 
-            <div className="flex gap-3">
+            <div className="flex gap-[3px] text-xs text-zinc-500 mb-2 ml-[55px] w-fit">
+                {weeks.map((week, index) => {
+                    const month = week[0].date.toLocaleString("en", {
+                        month: "short",
+                    });
+
+                    const previousMonth =
+                        index > 0
+                            ? weeks[index - 1][0].date.toLocaleString(
+                                "en",
+                                {
+                                    month: "short",
+                                }
+                            )
+                            : "";
+
+                    return (
+                        <div
+                            key={index}
+                            className="w-[15px] text-center"
+                        >
+                            {month !== previousMonth
+                                ? month
+                                : ""}
+                        </div>
+                    );
+                })}
+            </div>
+
+            <div className="flex gap-[3px] w-fit">
                 <div className="flex flex-col gap-[3px] text-xs text-zinc-500">
                     <div className="h-[15px] flex items-center">Thu</div>
                     <div className="h-[15px] flex items-center">Fri</div>
