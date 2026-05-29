@@ -3,14 +3,10 @@ type HeatmapCellProps = {
     opacity: number;
     color: "green" | "blue" | "amber";
     date: Date;
+    showTooltip?: boolean;
 };
 
-export default function HeatmapCell({
-                                        value,
-                                        opacity,
-                                        color,
-                                        date,
-                                    }: HeatmapCellProps) {
+export default function HeatmapCell({value, opacity, color, date, showTooltip = true}: HeatmapCellProps) {
     let intensityClass = "";
 
     const colors = {
@@ -55,7 +51,10 @@ export default function HeatmapCell({
 
     return (
         <div
-            title={`${date.toDateString()} - ${value}`}
+            title={showTooltip
+                ? `${date.toDateString()} - ${value}`
+                : undefined
+            }
             className={`
                 w-[15px] h-[15px]
                 rounded-sm
