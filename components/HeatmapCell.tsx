@@ -15,27 +15,27 @@ export default function HeatmapCell({
 
     const colors = {
         green: [
-            "bg-green-900",
-            "bg-green-700",
-            "bg-green-500",
-            "bg-green-400",
-            "bg-green-300",
+            "bg-[#39d353]/20",
+            "bg-[#39d353]/40",
+            "bg-[#39d353]/60",
+            "bg-[#39d353]/80",
+            "bg-[#39d353]",
         ],
 
         blue: [
-            "bg-blue-900",
-            "bg-blue-800",
-            "bg-blue-700",
-            "bg-blue-600",
-            "bg-blue-500",
+            "bg-[#218bff]/20",
+            "bg-[#218bff]/40",
+            "bg-[#218bff]/60",
+            "bg-[#218bff]/80",
+            "bg-[#218bff]",
         ],
 
         amber: [
-            "bg-amber-900",
-            "bg-amber-700",
-            "bg-amber-500",
-            "bg-amber-400",
-            "bg-amber-300",
+            "bg-[#f59e0b]/20",
+            "bg-[#f59e0b]/40",
+            "bg-[#f59e0b]/60",
+            "bg-[#f59e0b]/80",
+            "bg-[#f59e0b]",
         ],
     };
 
