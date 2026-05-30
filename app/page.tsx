@@ -1,9 +1,11 @@
 "use client";
 
 import { useMemo, useState } from "react";
-import HeatmapCell from "@/components/HeatmapCell";
 import HeatmapWeekdays from "@/components/HeatmapWeekdays";
 import HeatmapLegend from "@/components/HeatmapLegend";
+import HeatmapMonths from "@/components/HeatmapMonths";
+import HeatmapControls from "@/components/HeatmapControls";
+import HeatmapGrid from "@/components/HeatmapGrid";
 
 type Mode = "commits" | "prs" | "issues";
 
@@ -69,139 +71,23 @@ export default function Home() {
                 Git Activity
             </h1>
 
-            <div className="flex gap-3 mb-6">
-                <button
-                    onClick={() => setMode("commits")}
-                    className={`
-                        px-4 py-2 rounded font-semibold transition-all hover:scale-105
-                        ${
-                        mode === "commits"
-                            ? "bg-green-500 text-black"
-                            : "bg-neutral-900 text-white"
-                    }
-                    `}
-                >
-                    Commits
-                </button>
+            <HeatmapControls
+                mode={mode}
+                setMode={setMode}
+            />
 
-                <button
-                    onClick={() => setMode("prs")}
-                    className={`
-                        px-4 py-2 rounded font-semibold transition-all hover:scale-105
-                        ${
-                        mode === "prs"
-                            ? "bg-blue-500 text-black"
-                            : "bg-neutral-900 text-white"
-                    }
-                    `}
-                >
-                    PRs
-                </button>
-
-                <button
-                    onClick={() => setMode("issues")}
-                    className={`
-                        px-4 py-2 rounded font-semibold transition-all hover:scale-105
-                        ${
-                        mode === "issues"
-                            ? "bg-amber-500 text-black"
-                            : "bg-neutral-900 text-white"
-                    }
-                    `}
-                >
-                    Issues
-                </button>
-            </div>
-
-            <div className="flex gap-[3px] text-xs text-zinc-500 mb-2 ml-[55px] w-fit">
-                {weeks.map((week, index) => {
-                    const firstRealDay = week.find(Boolean);
-
-                    if (!firstRealDay) {
-                        return (
-                            <div
-                                key={index}
-                                className="w-[15px]"
-                            />
-                        );
-                    }
-
-                    const month =
-                        firstRealDay.date.toLocaleString(
-                            "en",
-                            {
-                                month: "short",
-                            }
-                        );
-
-                    const previousWeek =
-                        index > 0
-                            ? weeks[index - 1].find(Boolean)
-                            : null;
-
-                    const previousMonth =
-                        previousWeek
-                            ? previousWeek.date.toLocaleString(
-                                "en",
-                                {
-                                    month: "short",
-                                }
-                            )
-                            : "";
-
-                    return (
-                        <div
-                            key={index}
-                            className="w-[15px] text-center"
-                        >
-                            {month !== previousMonth
-                                ? month
-                                : ""}
-                        </div>
-                    );
-                })}
-            </div>
+            <HeatmapMonths weeks={weeks} />
 
             <div className="flex gap-[3px] w-fit">
                 <HeatmapWeekdays/>
 
-                <div className="flex gap-[3px]">
-                    {weeks.map((week, weekIndex) => (
-                        <div
-                            key={weekIndex}
-                            className="flex flex-col gap-[3px]"
-                        >
-                            {week.map((day, dayIndex) => {
-                                if (!day) {
-                                    return (
-                                        <div
-                                            key={dayIndex}
-                                            className="w-[15px] h-[15px]"
-                                        />
-                                    );
-                                }
+                <HeatmapGrid
+                    weeks={weeks}
+                    mode={mode}
+                    activeColor={activeColor}
+                    maxValue={maxValue}
+                />
 
-                                const value = day[mode];
-
-                                const opacity =
-                                    value === 0
-                                        ? 0
-                                        : Math.log(value + 1) /
-                                        Math.log(maxValue + 1);
-
-                                return (
-                                    <HeatmapCell
-                                        key={`${mode}-${dayIndex}-${weekIndex}`}
-                                        value={value}
-                                        opacity={opacity}
-                                        color={activeColor}
-                                        date={day.date}
-                                    />
-                                );
-                            })}
-                        </div>
-                    ))}
-                </div>
             </div>
             <div className="mt-4 ml-[55px]">
                 <HeatmapLegend color={activeColor}/>
