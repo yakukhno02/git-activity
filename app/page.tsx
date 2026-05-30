@@ -2,6 +2,8 @@
 
 import { useMemo, useState } from "react";
 import HeatmapCell from "@/components/HeatmapCell";
+import HeatmapWeekdays from "@/components/HeatmapWeekdays";
+import HeatmapLegend from "@/components/HeatmapLegend";
 
 type Mode = "commits" | "prs" | "issues";
 
@@ -161,18 +163,7 @@ export default function Home() {
             </div>
 
             <div className="flex gap-[3px] w-fit">
-                <div className="flex flex-col gap-[3px] text-xs text-zinc-500">
-                    {["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"].map(
-                        (day) => (
-                            <div
-                                key={day}
-                                className="h-[15px] flex items-center"
-                            >
-                                {day}
-                            </div>
-                        )
-                    )}
-                </div>
+                <HeatmapWeekdays/>
 
                 <div className="flex gap-[3px]">
                     {weeks.map((week, weekIndex) => (
@@ -212,21 +203,8 @@ export default function Home() {
                     ))}
                 </div>
             </div>
-            <div className="flex items-center gap-2 mt-4 ml-[55px] text-xs text-zinc-500">
-                <span>Less</span>
-
-                {[0.2, 0.4, 0.6, 0.8, 1].map((opacity) => (
-                    <HeatmapCell
-                        key={opacity}
-                        value={1}
-                        opacity={opacity}
-                        color={activeColor}
-                        date={new Date()}
-                        showTooltip={false}
-                    />
-                ))}
-
-                <span>More</span>
+            <div className="mt-4 ml-[55px]">
+                <HeatmapLegend color={activeColor}/>
             </div>
         </main>
     );
