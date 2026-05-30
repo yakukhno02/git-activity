@@ -24,14 +24,14 @@ export default function Home() {
                     Math.random() < 0.75
                         ? 0
                         : Math.random() < 0.01
-                            ? 30
+                            ? 10
                             : Math.floor(Math.random() * 4) + 1,
 
                 issues:
                     Math.random() < 0.8
                         ? 0
                         : Math.random() < 0.008
-                            ? 20
+                            ? 10
                             : Math.floor(Math.random() * 3) + 1,
             })),
         []
@@ -211,6 +211,22 @@ export default function Home() {
                         </div>
                     ))}
                 </div>
+            </div>
+            <div className="flex items-center gap-2 mt-4 ml-[55px] text-xs text-zinc-500">
+                <span>Less</span>
+
+                {[0.2, 0.4, 0.6, 0.8, 1].map((opacity) => (
+                    <HeatmapCell
+                        key={opacity}
+                        value={1}
+                        opacity={opacity}
+                        color={activeColor}
+                        date={new Date()}
+                        showTooltip={false}
+                    />
+                ))}
+
+                <span>More</span>
             </div>
         </main>
     );

@@ -1,41 +1,39 @@
+import { useState } from "react";
 type HeatmapCellProps = {
     value: number;
     opacity: number;
     color: "green" | "blue" | "amber";
     date: Date;
+    showTooltip?: boolean;
 };
 
-export default function HeatmapCell({
-                                        value,
-                                        opacity,
-                                        color,
-                                        date,
-                                    }: HeatmapCellProps) {
+export default function HeatmapCell({value, opacity, color, date, showTooltip = true}: HeatmapCellProps) {
     let intensityClass = "";
 
+    const [hovered, setHovered] = useState(false);
     const colors = {
         green: [
-            "bg-green-900",
-            "bg-green-700",
-            "bg-green-500",
-            "bg-green-400",
-            "bg-green-300",
+            "bg-[#39d353]/20",
+            "bg-[#39d353]/40",
+            "bg-[#39d353]/60",
+            "bg-[#39d353]/80",
+            "bg-[#39d353]",
         ],
 
         blue: [
-            "bg-blue-900",
-            "bg-blue-800",
-            "bg-blue-700",
-            "bg-blue-600",
-            "bg-blue-500",
+            "bg-[#218bff]/20",
+            "bg-[#218bff]/40",
+            "bg-[#218bff]/60",
+            "bg-[#218bff]/80",
+            "bg-[#218bff]",
         ],
 
         amber: [
-            "bg-amber-900",
-            "bg-amber-700",
-            "bg-amber-500",
-            "bg-amber-400",
-            "bg-amber-300",
+            "bg-[#f59e0b]/20",
+            "bg-[#f59e0b]/40",
+            "bg-[#f59e0b]/60",
+            "bg-[#f59e0b]/80",
+            "bg-[#f59e0b]",
         ],
     };
 
@@ -55,14 +53,49 @@ export default function HeatmapCell({
 
     return (
         <div
-            title={`${date.toDateString()} - ${value}`}
-            className={`
+            className="relative inline-block"
+            onMouseEnter={() => setHovered(true)}
+            onMouseLeave={() => setHovered(false)}
+        >
+            <div
+                className={`
                 w-[15px] h-[15px]
                 rounded-sm
                 transition-all duration-200
                 cursor-pointer
+                hover:scale-115
                 ${intensityClass}
             `}
-        />
+            />
+
+            {hovered && showTooltip && (
+                <div
+                    className="
+                    absolute
+                    bottom-6
+                    left-1/2
+                    -translate-x-1/2
+                    whitespace-nowrap
+                    rounded
+                    bg-zinc-800
+                    px-2
+                    py-1
+                    text-xs
+                    text-white
+                    shadow-lg
+                    z-50
+                    pointer-events-none
+                "
+                >
+                    {value}{" "}
+                    {color === "green"
+                        ? "commits"
+                        : color === "blue"
+                            ? "PRs"
+                            : "issues"}{" "}
+                    on {date.toLocaleDateString()}
+                </div>
+            )}
+        </div>
     );
 }
