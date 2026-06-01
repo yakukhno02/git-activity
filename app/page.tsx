@@ -11,10 +11,12 @@ import HeatmapStats from "@/components/HeatmapStats";
 import { calculateStreaks } from "@/utils/calculateStreaks";
 import { ActivityDay, Mode } from "@/types/heatmap";
 import { ActivityDayResponse } from "@/types/api";
+import GithubUserForm from "@/components/GithubUserForm";
 
 export default function Home() {
     const [data, setData] = useState<ActivityDay[]>([]);
     const [mode, setMode] = useState<Mode>("commits");
+    const [username, setUsername] = useState("");
 
     useEffect(() => {
         fetch("/api/activity")
@@ -28,6 +30,19 @@ export default function Home() {
                 )
             );
     }, []);
+
+    function loadActivity() {
+        fetch(`/api/activity?user=${username}`)
+            .then((response) => response.json())
+            .then((data) =>
+                setData(
+                    data.map((day: ActivityDayResponse) => ({
+                        ...day,
+                        date: new Date(day.date),
+                    }))
+                )
+            );
+    }
 
     if (data.length === 0) {
         return (
@@ -69,6 +84,12 @@ export default function Home() {
             <h1 className="text-4xl font-bold mb-5">
                 Git Activity
             </h1>
+
+            <GithubUserForm
+                username={username}
+                setUsername={setUsername}
+                onLoad={loadActivity}
+            />
 
             <div className="w-fit">
                 <div className="flex justify-between items-center mb-6">
