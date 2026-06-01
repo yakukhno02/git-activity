@@ -17,6 +17,7 @@ export default function Home() {
     const [data, setData] = useState<ActivityDay[]>([]);
     const [mode, setMode] = useState<Mode>("commits");
     const [username, setUsername] = useState("");
+    const [error, setError] = useState("");
 
     useEffect(() => {
         fetch("/api/activity")
@@ -31,17 +32,26 @@ export default function Home() {
             );
     }, []);
 
-    function loadActivity() {
-        fetch(`/api/activity?user=${username}`)
-            .then((response) => response.json())
-            .then((data) =>
-                setData(
-                    data.map((day: ActivityDayResponse) => ({
-                        ...day,
-                        date: new Date(day.date),
-                    }))
-                )
-            );
+    async function loadActivity() {
+        setError("");
+
+        const response = await fetch(
+            `/api/activity?user=${username}`
+        );
+
+        if (!response.ok) {
+            setError("GitHub user not found");
+            return;
+        }
+
+        const data = await response.json();
+
+        setData(
+            data.map((day: ActivityDayResponse) => ({
+                ...day,
+                date: new Date(day.date),
+            }))
+        );
     }
 
     if (data.length === 0) {
@@ -90,6 +100,11 @@ export default function Home() {
                 setUsername={setUsername}
                 onLoad={loadActivity}
             />
+            {error && (
+                <p className="text-red-500 mb-4">
+                    {error}
+                </p>
+            )}
 
             <div className="w-fit">
                 <div className="flex justify-between items-center mb-6">
