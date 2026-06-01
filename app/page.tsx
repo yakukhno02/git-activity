@@ -50,38 +50,42 @@ export default function Home() {
 
     return (
         <main className="min-h-screen bg-black text-white p-10">
-            <h1 className="text-4xl font-bold mb-8">
+            <h1 className="text-4xl font-bold mb-5">
                 Git Activity
             </h1>
 
-            <div className="flex items-end justify-between mb-5">
-                <HeatmapControls
-                    mode={mode}
-                    setMode={setMode}
-                />
+            <div className="w-fit">
+                <div className="flex justify-between items-center mb-6">
+                    <HeatmapControls
+                        mode={mode}
+                        setMode={setMode}
+                    />
 
-                <HeatmapStats
-                    commits={totalCommits}
-                    prs={totalPRs}
-                    issues={totalIssues}
-                />
-            </div>
+                    <div className="-mt-2">
+                        <HeatmapStats
+                            commits={totalCommits}
+                            prs={totalPRs}
+                            issues={totalIssues}
+                        />
+                    </div>
+                </div>
 
-            <HeatmapMonths weeks={weeks}/>
+                    <HeatmapMonths weeks={weeks}/>
 
-            <div className="flex gap-[3px] w-fit">
-                <HeatmapWeekdays/>
+                <div className="flex gap-[3px] w-fit">
+                    <HeatmapWeekdays/>
 
-                <HeatmapGrid
-                    weeks={weeks}
-                    mode={mode}
-                    activeColor={activeColor}
-                    maxValue={maxValue}
-                />
+                    <HeatmapGrid
+                        weeks={weeks}
+                        mode={mode}
+                        activeColor={activeColor}
+                        maxValue={maxValue}
+                    />
 
-            </div>
-            <div className="mt-4 ml-[55px]">
-                <HeatmapLegend color={activeColor}/>
+                </div>
+                <div className="mt-4 ml-[55px]">
+                    <HeatmapLegend color={activeColor}/>
+                </div>
             </div>
         </main>
     );
