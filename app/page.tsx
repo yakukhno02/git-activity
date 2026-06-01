@@ -9,6 +9,8 @@ import HeatmapControls from "@/components/HeatmapControls";
 import HeatmapGrid from "@/components/HeatmapGrid";
 import {generateMockData} from "@/utils/generateMockData";
 import {groupByWeeks} from "@/utils/groupByWeeks";
+import HeatmapStats from "@/components/HeatmapStats";
+
 
 export default function Home() {
     const [mode, setMode] = useState<Mode>("commits");
@@ -27,6 +29,18 @@ export default function Home() {
         ...data.map((day) => day[mode])
     );
 
+    const totalCommits = data.reduce(
+        (sum, day) => sum + day.commits, 0
+    );
+
+    const totalPRs = data.reduce(
+        (sum, day) => sum + day.prs, 0
+    );
+
+    const totalIssues = data.reduce(
+        (sum, day) => sum + day.issues, 0
+    );
+
     const activeColor =
         mode === "commits"
             ? "green"
@@ -40,12 +54,20 @@ export default function Home() {
                 Git Activity
             </h1>
 
-            <HeatmapControls
-                mode={mode}
-                setMode={setMode}
-            />
+            <div className="flex items-end justify-between mb-5">
+                <HeatmapControls
+                    mode={mode}
+                    setMode={setMode}
+                />
 
-            <HeatmapMonths weeks={weeks} />
+                <HeatmapStats
+                    commits={totalCommits}
+                    prs={totalPRs}
+                    issues={totalIssues}
+                />
+            </div>
+
+            <HeatmapMonths weeks={weeks}/>
 
             <div className="flex gap-[3px] w-fit">
                 <HeatmapWeekdays/>
