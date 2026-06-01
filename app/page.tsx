@@ -1,30 +1,43 @@
 "use client";
 
-import { useMemo, useState } from "react";
-import { Mode } from "@/types/heatmap";
+import { useEffect, useState } from "react";
 import HeatmapWeekdays from "@/components/HeatmapWeekdays";
 import HeatmapLegend from "@/components/HeatmapLegend";
 import HeatmapMonths from "@/components/HeatmapMonths";
 import HeatmapControls from "@/components/HeatmapControls";
 import HeatmapGrid from "@/components/HeatmapGrid";
-import {generateMockData} from "@/utils/generateMockData";
 import {groupByWeeks} from "@/utils/groupByWeeks";
 import HeatmapStats from "@/components/HeatmapStats";
 import { calculateStreaks } from "@/utils/calculateStreaks";
-
+import { ActivityDay, Mode } from "@/types/heatmap";
+import { ActivityDayResponse } from "@/types/api";
 
 export default function Home() {
+    const [data, setData] = useState<ActivityDay[]>([]);
     const [mode, setMode] = useState<Mode>("commits");
 
-    const data = useMemo(
-        () => generateMockData(),
-        []
-    );
+    useEffect(() => {
+        fetch("/api/activity")
+            .then((response) => response.json())
+            .then((data: ActivityDayResponse[]) =>
+                setData(
+                    data.map((day) => ({
+                        ...day,
+                        date: new Date(day.date),
+                    }))
+                )
+            );
+    }, []);
 
-    const weeks = useMemo(
-        () => groupByWeeks(data),
-        [data]
-    );
+    if (data.length === 0) {
+        return (
+            <main className="min-h-screen bg-black text-white p-10">
+                Loading...
+            </main>
+        );
+    }
+
+    const weeks = groupByWeeks(data);
 
     const maxValue = Math.max(
         ...data.map((day) => day[mode])
