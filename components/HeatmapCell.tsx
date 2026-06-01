@@ -64,6 +64,7 @@ export default function HeatmapCell({value, opacity, color, date, showTooltip = 
                 transition-all duration-200
                 cursor-pointer
                 hover:scale-115
+                hover:brightness-125
                 ${intensityClass}
             `}
             />
