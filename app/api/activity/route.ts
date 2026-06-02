@@ -62,5 +62,43 @@ export async function GET(request: Request) {
 
     const heatmapData = transformContributionCalendar(contributionDays);
 
+    const pullRequests =
+        result.data.user
+            .contributionsCollection
+            .pullRequestContributions
+            .nodes;
+
+    for (const pr of pullRequests) {
+        const date = pr.occurredAt.slice(0, 10);
+
+        const day = heatmapData.find(
+            (item) =>
+                item.date.toISOString().slice(0, 10) === date
+        );
+
+        if (day) {
+            day.prs++;
+        }
+    }
+
+    const issues =
+        result.data.user
+            .contributionsCollection
+            .issueContributions
+            .nodes;
+
+    for (const issue of issues) {
+        const date = issue.occurredAt.slice(0, 10);
+
+        const day = heatmapData.find(
+            (item) =>
+                item.date.toISOString().slice(0, 10) === date
+        );
+
+        if (day) {
+            day.issues++;
+        }
+    }
+
     return Response.json(heatmapData);
 }

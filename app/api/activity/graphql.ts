@@ -10,6 +10,18 @@ query($username: String!) {
           }
         }
       }
+
+      pullRequestContributions(first: 100) {
+        nodes {
+          occurredAt
+        }
+      }
+      
+      issueContributions(first: 100) {
+        nodes {
+          occurredAt
+        }
+      }
     }
   }
 }
