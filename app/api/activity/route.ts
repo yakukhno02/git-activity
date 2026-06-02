@@ -1,14 +1,15 @@
-import { generateMockData } from "@/utils/generateMockData";
+import { fillMissingDates } from "@/utils/fillMissingDates";
+import { transformGithubEvents } from "@/utils/transformGithubEvents";
 
 export async function GET(request: Request) {
     const user = new URL(request.url)
-            .searchParams
-            .get("user");
+        .searchParams
+        .get("user");
 
     console.log("GitHub user:", user);
 
     const response = await fetch(
-        `https://api.github.com/users/${user}`
+        `https://api.github.com/users/${user}/events`
     );
 
     if (!response.ok) {
@@ -22,9 +23,13 @@ export async function GET(request: Request) {
         );
     }
 
-    const githubUser = await response.json();
+    const events = await response.json();
 
-    console.log(githubUser.login);
+    console.log(events[0]);
 
-    return Response.json(generateMockData());
+    const heatmapData = transformGithubEvents(events);
+
+    const fullYearData = fillMissingDates(heatmapData);
+
+    return Response.json(fullYearData);
 }
