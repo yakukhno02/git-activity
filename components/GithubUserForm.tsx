@@ -2,9 +2,10 @@ type Props = {
     username: string;
     setUsername: (username: string) => void;
     onLoad: () => void;
+    isLoading: boolean;
 };
 
-export default function GithubUserForm({username, setUsername, onLoad,}: Props) {
+export default function GithubUserForm({username, setUsername, onLoad, isLoading, }: Props) {
     return (
         <div className="flex gap-3 mb-6">
             <input
@@ -25,6 +26,7 @@ export default function GithubUserForm({username, setUsername, onLoad,}: Props) 
 
             <button
                 onClick={onLoad}
+                disabled={isLoading}
                 className="
                     bg-white
                     text-black
@@ -32,9 +34,11 @@ export default function GithubUserForm({username, setUsername, onLoad,}: Props) 
                     py-2
                     rounded
                     font-semibold
+                    disabled:opacity-50
+                    disabled:cursor-not-allowed
                 "
             >
-                Load
+                {isLoading ? "Loading..." : "Load"}
             </button>
         </div>
     );

@@ -18,6 +18,7 @@ export default function Home() {
     const [mode, setMode] = useState<Mode>("commits");
     const [username, setUsername] = useState("");
     const [error, setError] = useState("");
+    const [isLoading, setIsLoading] = useState(false);
 
     useEffect(() => {
         fetch("/api/activity")
@@ -34,6 +35,7 @@ export default function Home() {
 
     async function loadActivity() {
         setError("");
+        setIsLoading(true);
 
         const response = await fetch(
             `/api/activity?user=${username}`
@@ -41,6 +43,7 @@ export default function Home() {
 
         if (!response.ok) {
             setError("GitHub user not found");
+            setIsLoading(false);
             return;
         }
 
@@ -52,6 +55,7 @@ export default function Home() {
                 date: new Date(day.date),
             }))
         );
+        setIsLoading(false);
     }
 
     if (data === null) {
@@ -99,7 +103,9 @@ export default function Home() {
                 username={username}
                 setUsername={setUsername}
                 onLoad={loadActivity}
+                isLoading={isLoading}
             />
+
             {error && (
                 <p className="text-red-500 mb-4">
                     {error}
