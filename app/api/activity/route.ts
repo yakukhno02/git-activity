@@ -1,7 +1,4 @@
-import { fillMissingDates } from "@/utils/fillMissingDates";
-import { transformGithubEvents } from "@/utils/transformGithubEvents";
 import { CONTRIBUTIONS_QUERY } from "./graphql";
-import {generateMockData} from "@/utils/generateMockData";
 import {transformContributionCalendar} from "@/utils/transformContributionCalendar";
 
 export async function GET(request: Request) {
@@ -98,6 +95,30 @@ export async function GET(request: Request) {
         if (day) {
             day.issues++;
         }
+    }
+
+    const reviews =
+        result.data.user
+            .contributionsCollection
+            .pullRequestReviewContributions
+            .nodes;
+
+    for (const review of reviews) {
+        const date = review.occurredAt.slice(0, 10);
+
+        const day = heatmapData.find(
+            (item) =>
+                item.date.toISOString().slice(0, 10) === date
+        );
+
+        if (day) {
+            day.reviews++;
+        }
+    }
+
+    for (const day of heatmapData) {
+        day.commits = Math.max(
+            day.commits - day.prs - day.issues - day.reviews, 0);
     }
 
     return Response.json(heatmapData);

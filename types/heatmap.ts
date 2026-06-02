@@ -3,6 +3,7 @@ export type ActivityDay = {
     commits: number;
     prs: number;
     issues: number;
+    reviews: number;
 };
 
 export type Mode =

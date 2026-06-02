@@ -22,6 +22,11 @@ query($username: String!) {
           occurredAt
         }
       }
+      pullRequestReviewContributions(first: 100) {
+        nodes {
+          occurredAt
+        }
+      }
     }
   }
 }

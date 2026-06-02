@@ -27,6 +27,7 @@ export function fillMissingDates(
                 commits: 0,
                 prs: 0,
                 issues: 0,
+                reviews: 0,
             }
         );
     }

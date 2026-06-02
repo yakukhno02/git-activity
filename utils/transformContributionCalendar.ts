@@ -11,5 +11,6 @@ export function transformContributionCalendar(
         commits: day.contributionCount,
         prs: 0,
         issues: 0,
+        reviews: 0,
     }));
 }
