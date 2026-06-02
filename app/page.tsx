@@ -14,7 +14,7 @@ import { ActivityDayResponse } from "@/types/api";
 import GithubUserForm from "@/components/GithubUserForm";
 
 export default function Home() {
-    const [data, setData] = useState<ActivityDay[]>([]);
+    const [data, setData] = useState<ActivityDay[] | null>(null);
     const [mode, setMode] = useState<Mode>("commits");
     const [username, setUsername] = useState("");
     const [error, setError] = useState("");
@@ -54,7 +54,7 @@ export default function Home() {
         );
     }
 
-    if (data.length === 0) {
+    if (data === null) {
         return (
             <main className="min-h-screen bg-black text-white p-10">
                 Loading...
