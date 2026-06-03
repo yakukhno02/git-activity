@@ -1,5 +1,7 @@
+import { ActivityDay } from "@/types/heatmap";
+
 type Props = {
-    weeks: (any[])[];
+    weeks: (ActivityDay | null)[][];
 };
 
 export default function HeatmapMonths({ weeks }: Props) {

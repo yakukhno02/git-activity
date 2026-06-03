@@ -5,14 +5,3 @@ export type ActivityDay = {
     issues: number;
     reviews: number;
 };
-
-export type Mode =
-    | "all"
-    | "commits"
-    | "prs"
-    | "issues";
-
-export type Color =
-    | "green"
-    | "blue"
-    | "amber";

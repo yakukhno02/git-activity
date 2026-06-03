@@ -1,8 +1,8 @@
 import HeatmapCell from "./HeatmapCell";
+import { ActivityDay } from "@/types/heatmap";
 
 type Props = {
-    weeks: any[][];
-    selectedActivities: {
+    weeks: (ActivityDay | null)[][];    selectedActivities: {
         commits: boolean;
         prs: boolean;
         issues: boolean;
