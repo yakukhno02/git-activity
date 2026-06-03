@@ -2,7 +2,7 @@ import { useState } from "react";
 type HeatmapCellProps = {
     value: number;
     opacity: number;
-    color: "green" | "blue" | "amber";
+    color: | "green" | "blue" | "red" | "teal" | "yellow" | "purple" | "pink";
     date: Date;
     showTooltip?: boolean;
 };
@@ -28,12 +28,44 @@ export default function HeatmapCell({value, opacity, color, date, showTooltip = 
             "bg-[#218bff]",
         ],
 
-        amber: [
-            "bg-[#f59e0b]/20",
-            "bg-[#f59e0b]/40",
-            "bg-[#f59e0b]/60",
-            "bg-[#f59e0b]/80",
-            "bg-[#f59e0b]",
+        red: [
+            "bg-[#ef4444]/20",
+            "bg-[#ef4444]/40",
+            "bg-[#ef4444]/60",
+            "bg-[#ef4444]/80",
+            "bg-[#ef4444]",
+        ],
+
+        teal: [
+            "bg-[#14b8a6]/20",
+            "bg-[#14b8a6]/40",
+            "bg-[#14b8a6]/60",
+            "bg-[#14b8a6]/80",
+            "bg-[#14b8a6]",
+        ],
+
+        yellow: [
+            "bg-[#eab308]/20",
+            "bg-[#eab308]/40",
+            "bg-[#eab308]/60",
+            "bg-[#eab308]/80",
+            "bg-[#eab308]",
+        ],
+
+        purple: [
+            "bg-[#a855f7]/20",
+            "bg-[#a855f7]/40",
+            "bg-[#a855f7]/60",
+            "bg-[#a855f7]/80",
+            "bg-[#a855f7]",
+        ],
+
+        pink: [
+            "bg-[#ec4899]/20",
+            "bg-[#ec4899]/40",
+            "bg-[#ec4899]/60",
+            "bg-[#ec4899]/80",
+            "bg-[#ec4899]",
         ],
     };
 
@@ -88,13 +120,7 @@ export default function HeatmapCell({value, opacity, color, date, showTooltip = 
                     pointer-events-none
                 "
                 >
-                    {value}{" "}
-                    {color === "green"
-                        ? "commits"
-                        : color === "blue"
-                            ? "PRs"
-                            : "issues"}{" "}
-                    on {date.toLocaleDateString()}
+                    {value} activity on {date.toLocaleDateString()}
                 </div>
             )}
         </div>

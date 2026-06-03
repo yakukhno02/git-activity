@@ -2,20 +2,24 @@
 
 import { useEffect, useState } from "react";
 import HeatmapWeekdays from "@/components/HeatmapWeekdays";
-import HeatmapLegend from "@/components/HeatmapLegend";
 import HeatmapMonths from "@/components/HeatmapMonths";
 import HeatmapControls from "@/components/HeatmapControls";
 import HeatmapGrid from "@/components/HeatmapGrid";
 import {groupByWeeks} from "@/utils/groupByWeeks";
 import HeatmapStats from "@/components/HeatmapStats";
 import { calculateStreaks } from "@/utils/calculateStreaks";
-import { ActivityDay, Mode } from "@/types/heatmap";
+import { ActivityDay} from "@/types/heatmap";
 import { ActivityDayResponse } from "@/types/api";
 import GithubUserForm from "@/components/GithubUserForm";
 
 export default function Home() {
     const [data, setData] = useState<ActivityDay[] | null>(null);
-    const [mode, setMode] = useState<Mode>("commits");
+    const [selectedActivities, setSelectedActivities] =
+        useState({
+            commits: true,
+            prs: true,
+            issues: true,
+        });
     const [username, setUsername] = useState("");
     const [error, setError] = useState("");
     const [isLoading, setIsLoading] = useState(false);
@@ -69,7 +73,12 @@ export default function Home() {
     const weeks = groupByWeeks(data);
 
     const maxValue = Math.max(
-        ...data.map((day) => day[mode])
+        ...data.map(
+            (day) =>
+                (selectedActivities.commits ? day.commits : 0) +
+                (selectedActivities.prs ? day.prs : 0) +
+                (selectedActivities.issues ? day.issues : 0)
+        )
     );
 
     const totalCommits = data.reduce(
@@ -85,13 +94,6 @@ export default function Home() {
     );
 
     const {currentStreak, longestStreak,} = calculateStreaks(data);
-
-    const activeColor =
-        mode === "commits"
-            ? "green"
-            : mode === "prs"
-                ? "blue"
-                : "amber";
 
     return (
         <main className="min-h-screen bg-black text-white p-10">
@@ -115,8 +117,8 @@ export default function Home() {
             <div className="w-fit">
                 <div className="flex justify-between items-center mb-6">
                     <HeatmapControls
-                        mode={mode}
-                        setMode={setMode}
+                        selectedActivities={selectedActivities}
+                        setSelectedActivities={setSelectedActivities}
                     />
 
                     <div className="-mt-2">
@@ -128,6 +130,45 @@ export default function Home() {
                     </div>
                 </div>
 
+                <div className="flex flex-wrap gap-5 text-sm text-zinc-400 mb-6">
+                    <div className="flex items-center gap-2">
+                        <div className="w-3 h-3 rounded-sm bg-[#39d353]"/>
+                        <span>Commits</span>
+                    </div>
+
+                    <div className="flex items-center gap-2">
+                        <div className="w-3 h-3 rounded-sm bg-[#218bff]"/>
+                        <span>PRs</span>
+                    </div>
+
+                    <div className="flex items-center gap-2">
+                        <div className="w-3 h-3 rounded-sm bg-red-500"/>
+                        <span>Issues</span>
+                    </div>
+
+                    <div className="flex items-center gap-2">
+                        <div className="w-3 h-3 rounded-sm bg-cyan-400"/>
+                        <span>Commits + PRs</span>
+                    </div>
+
+                    <div className="flex items-center gap-2">
+                        <div className="w-3 h-3 rounded-sm bg-yellow-400"/>
+                        <span>Commits + Issues</span>
+                    </div>
+
+                    <div className="flex items-center gap-2">
+                        <div className="w-3 h-3 rounded-sm bg-purple-500"/>
+                        <span>PRs + Issues</span>
+                    </div>
+
+                    <div className="flex items-center gap-2">
+                        <div className="w-3 h-3 rounded-sm bg-pink-500"/>
+                        <span>All Activities</span>
+                    </div>
+
+
+                </div>
+
                 <HeatmapMonths weeks={weeks}/>
 
                 <div className="flex gap-[3px] w-fit">
@@ -135,14 +176,10 @@ export default function Home() {
 
                     <HeatmapGrid
                         weeks={weeks}
-                        mode={mode}
-                        activeColor={activeColor}
+                        selectedActivities={selectedActivities}
                         maxValue={maxValue}
                     />
 
-                </div>
-                <div className="mt-4 ml-[55px]">
-                    <HeatmapLegend color={activeColor}/>
                 </div>
             </div>
 

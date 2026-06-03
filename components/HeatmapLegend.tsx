@@ -1,7 +1,7 @@
 import HeatmapCell from "./HeatmapCell";
 
 type Props = {
-    color: "green" | "blue" | "amber";
+    color: | "green" | "blue" | "red" | "teal" | "yellow" | "purple" | "pink";
 };
 
 export default function HeatmapLegend({ color }: Props) {

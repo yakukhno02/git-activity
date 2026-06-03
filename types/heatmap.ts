@@ -7,6 +7,7 @@ export type ActivityDay = {
 };
 
 export type Mode =
+    | "all"
     | "commits"
     | "prs"
     | "issues";
