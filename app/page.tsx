@@ -11,6 +11,7 @@ import { calculateStreaks } from "@/utils/calculateStreaks";
 import { ActivityDay} from "@/types/heatmap";
 import { ActivityDayResponse } from "@/types/api";
 import GithubUserForm from "@/components/GithubUserForm";
+import HeatmapLegend from "@/components/HeatmapLegend";
 
 export default function Home() {
     const [data, setData] = useState<ActivityDay[] | null>(null);
@@ -95,6 +96,26 @@ export default function Home() {
 
     const {currentStreak, longestStreak,} = calculateStreaks(data);
 
+    const activeLegendColor =
+        selectedActivities.commits &&
+        selectedActivities.prs &&
+        selectedActivities.issues
+            ? "white"
+            : selectedActivities.commits &&
+            selectedActivities.prs
+                ? "teal"
+                : selectedActivities.commits &&
+                selectedActivities.issues
+                    ? "yellow"
+                    : selectedActivities.prs &&
+                    selectedActivities.issues
+                        ? "purple"
+                        : selectedActivities.commits
+                            ? "green"
+                            : selectedActivities.prs
+                                ? "blue"
+                                : "red";
+
     return (
         <main className="min-h-screen bg-black text-white p-10">
             <h1 className="text-4xl font-bold mb-5">
@@ -162,7 +183,7 @@ export default function Home() {
                     </div>
 
                     <div className="flex items-center gap-2">
-                        <div className="w-3 h-3 rounded-sm bg-pink-500"/>
+                        <div className="w-3 h-3 rounded-sm bg-white"/>
                         <span>All Activities</span>
                     </div>
 
@@ -180,6 +201,12 @@ export default function Home() {
                         maxValue={maxValue}
                     />
 
+                </div>
+
+                <div className="mt-4 ml-[55px]">
+                    <HeatmapLegend
+                        color={activeLegendColor}
+                    />
                 </div>
             </div>
 

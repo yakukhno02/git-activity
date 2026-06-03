@@ -68,7 +68,7 @@ export default function HeatmapControls({selectedActivities, setSelectedActiviti
                     transition-all hover:scale-105
                     ${
                     selectedActivities.issues
-                        ? "bg-amber-500 text-black"
+                        ? "bg-red-500 text-black"
                         : "bg-neutral-900 text-white"
                 }
                 `}

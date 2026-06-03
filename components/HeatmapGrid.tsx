@@ -17,7 +17,7 @@ type HeatmapColor =
     | "teal"
     | "yellow"
     | "purple"
-    | "pink";
+    | "white";
 
 export default function HeatmapGrid({weeks, selectedActivities, maxValue,}: Props) {
     return (
@@ -81,7 +81,7 @@ export default function HeatmapGrid({weeks, selectedActivities, maxValue,}: Prop
                         }
 
                         else if (hasCommits && hasPRs && hasIssues) {
-                            color = "pink";
+                            color = "white";
                         }
 
                         const opacity =

@@ -2,7 +2,7 @@ import { useState } from "react";
 type HeatmapCellProps = {
     value: number;
     opacity: number;
-    color: | "green" | "blue" | "red" | "teal" | "yellow" | "purple" | "pink";
+    color: | "green" | "blue" | "red" | "teal" | "yellow" | "purple" | "white";
     date: Date;
     showTooltip?: boolean;
     day: {
@@ -65,12 +65,12 @@ export default function HeatmapCell({value, opacity, color, date, day, showToolt
             "bg-[#a855f7]",
         ],
 
-        pink: [
-            "bg-[#ec4899]/20",
-            "bg-[#ec4899]/40",
-            "bg-[#ec4899]/60",
-            "bg-[#ec4899]/80",
-            "bg-[#ec4899]",
+        white: [
+            "bg-white/20",
+            "bg-white/40",
+            "bg-white/60",
+            "bg-white/80",
+            "bg-white",
         ],
     };
 
