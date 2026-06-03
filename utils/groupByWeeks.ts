@@ -1,6 +1,9 @@
 import { ActivityDay } from "@/types/heatmap";
 
 export function groupByWeeks(data: ActivityDay[]) {
+    if (data.length === 0) {
+        return [];
+    }
     const firstDay = data[0].date.getDay();
 
     const shiftedDays = [

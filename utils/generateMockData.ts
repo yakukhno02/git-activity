@@ -26,6 +26,12 @@ export function generateMockData(): ActivityDay[] {
                     : Math.random() < 0.008
                         ? 10
                         : Math.floor(Math.random() * 3) + 1,
+            reviews:
+                Math.random() < 0.8
+                    ? 0
+                    : Math.random() < 0.008
+                        ? 10
+                        : Math.floor(Math.random() * 3) + 1,
         })
     );
 }

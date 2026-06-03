@@ -32,7 +32,7 @@ export default function HeatmapStats({commits, prs, issues,}: Props) {
                     Issues
                 </p>
 
-                <p className="text-2xl font-bold text-amber-400">
+                <p className="text-2xl font-bold text-red-500">
                     {issues}
                 </p>
             </div>

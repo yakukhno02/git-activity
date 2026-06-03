@@ -1,7 +1,7 @@
 import HeatmapCell from "./HeatmapCell";
 
 type Props = {
-    color: "green" | "blue" | "amber";
+    color: | "green" | "blue" | "red" | "teal" | "yellow" | "purple" | "white";
 };
 
 export default function HeatmapLegend({ color }: Props) {
@@ -16,6 +16,11 @@ export default function HeatmapLegend({ color }: Props) {
                     opacity={opacity}
                     color={color}
                     date={new Date()}
+                    day={{
+                        commits: 0,
+                        prs: 0,
+                        issues: 0,
+                    }}
                     showTooltip={false}
                 />
             ))}

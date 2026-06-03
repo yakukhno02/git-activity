@@ -1,13 +1,25 @@
 import HeatmapCell from "./HeatmapCell";
+import { ActivityDay } from "@/types/heatmap";
 
 type Props = {
-    weeks: any[][];
-    mode: "commits" | "prs" | "issues";
-    activeColor: "green" | "blue" | "amber";
+    weeks: (ActivityDay | null)[][];    selectedActivities: {
+        commits: boolean;
+        prs: boolean;
+        issues: boolean;
+    };
     maxValue: number;
 };
 
-export default function HeatmapGrid({weeks, mode, activeColor, maxValue,}: Props) {
+type HeatmapColor =
+    | "green"
+    | "blue"
+    | "red"
+    | "teal"
+    | "yellow"
+    | "purple"
+    | "white";
+
+export default function HeatmapGrid({weeks, selectedActivities, maxValue,}: Props) {
     return (
         <div className="flex gap-[3px]">
             {weeks.map((week, weekIndex) => (
@@ -25,7 +37,52 @@ export default function HeatmapGrid({weeks, mode, activeColor, maxValue,}: Props
                             );
                         }
 
-                        const value = day[mode];
+                        const value =
+                            (selectedActivities.commits ? day.commits : 0) +
+                            (selectedActivities.prs ? day.prs : 0) +
+                            (selectedActivities.issues ? day.issues : 0);
+
+                        const hasCommits =
+                            selectedActivities.commits &&
+                            day.commits > 0;
+
+                        const hasPRs =
+                            selectedActivities.prs &&
+                            day.prs > 0;
+
+                        const hasIssues =
+                            selectedActivities.issues &&
+                            day.issues > 0;
+
+                        let color: HeatmapColor = "green";
+
+                        if (hasCommits && !hasPRs && !hasIssues) {
+                            color = "green";
+                        }
+
+                        else if (!hasCommits && hasPRs && !hasIssues) {
+                            color = "blue";
+                        }
+
+                        else if (!hasCommits && !hasPRs && hasIssues) {
+                            color = "red";
+                        }
+
+                        else if (hasCommits && hasPRs && !hasIssues) {
+                            color = "teal";
+                        }
+
+                        else if (hasCommits && !hasPRs && hasIssues) {
+                            color = "yellow";
+                        }
+
+                        else if (!hasCommits && hasPRs && hasIssues) {
+                            color = "purple";
+                        }
+
+                        else if (hasCommits && hasPRs && hasIssues) {
+                            color = "white";
+                        }
 
                         const opacity =
                             value === 0
@@ -35,11 +92,12 @@ export default function HeatmapGrid({weeks, mode, activeColor, maxValue,}: Props
 
                         return (
                             <HeatmapCell
-                                key={`${mode}-${weekIndex}-${dayIndex}`}
+                                key={`${weekIndex}-${dayIndex}`}
                                 value={value}
                                 opacity={opacity}
-                                color={activeColor}
+                                color={color}
                                 date={day.date}
+                                day={day}
                             />
                         );
                     })}
