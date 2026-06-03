@@ -5,9 +5,14 @@ type HeatmapCellProps = {
     color: | "green" | "blue" | "red" | "teal" | "yellow" | "purple" | "pink";
     date: Date;
     showTooltip?: boolean;
+    day: {
+        commits: number;
+        prs: number;
+        issues: number;
+    };
 };
 
-export default function HeatmapCell({value, opacity, color, date, showTooltip = true}: HeatmapCellProps) {
+export default function HeatmapCell({value, opacity, color, date, day, showTooltip = true}: HeatmapCellProps) {
     let intensityClass = "";
 
     const [hovered, setHovered] = useState(false);
@@ -120,7 +125,25 @@ export default function HeatmapCell({value, opacity, color, date, showTooltip = 
                     pointer-events-none
                 "
                 >
-                    {value} activity on {date.toLocaleDateString()}
+                    <div className="font-semibold mb-1">
+                        {date.toLocaleDateString()}
+                    </div>
+
+                    <div className="text-green-400">
+                        Commits: {day.commits}
+                    </div>
+
+                    <div className="text-blue-400">
+                        PRs: {day.prs}
+                    </div>
+
+                    <div className="text-red-400">
+                        Issues: {day.issues}
+                    </div>
+
+                    <div className="border-t border-zinc-600 mt-1 pt-1">
+                        Total: {day.commits + day.prs + day.issues}
+                    </div>
                 </div>
             )}
         </div>

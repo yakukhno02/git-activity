@@ -16,6 +16,7 @@ export default function HeatmapLegend({ color }: Props) {
                     opacity={opacity}
                     color={color}
                     date={new Date()}
+                    day={}
                     showTooltip={false}
                 />
             ))}

@@ -97,6 +97,7 @@ export default function HeatmapGrid({weeks, selectedActivities, maxValue,}: Prop
                                 opacity={opacity}
                                 color={color}
                                 date={day.date}
+                                day={day}
                             />
                         );
                     })}
