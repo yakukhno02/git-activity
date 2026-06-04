@@ -2,6 +2,15 @@
 
 Interactive GitHub activity visualizer built with Next.js and TypeScript.
 
+## Navigation
+
+- [Features](#features)
+- [Demo](#demo)
+- [Add Git Activity to Your GitHub Profile](#add-git-activity-to-your-github-profile) ⭐️
+- [Tech Stack](#tech-stack)
+- [Local Setup](#local-setup)
+- [Deployment](#deployment)
+
 ## Features
 
 - GitHub contribution heatmap
@@ -10,16 +19,47 @@ Interactive GitHub activity visualizer built with Next.js and TypeScript.
 - Current and longest streak calculation
 - Shareable profile URLs
 - GitHub GraphQL API integration
+- SVG card for GitHub profile README
 
 ## Demo
 
+Live demo:
+
 https://git-heatmap.vercel.app
 
-Example:
+Example profile:
 
 https://git-heatmap.vercel.app/yakukhno02
 
-![img.png](screenshots/example.png)
+![Git Activity Preview](screenshots/example.png)
+
+## Add Git Activity to Your GitHub Profile
+
+Add this image to your GitHub profile `README.md`:
+
+```md
+![Git Activity](https://git-heatmap.vercel.app/api/svg?user=YOUR_GITHUB_USERNAME)
+```
+
+Replace `YOUR_GITHUB_USERNAME` with your GitHub username.
+
+Example:
+
+```md
+![Git Activity](https://git-heatmap.vercel.app/api/svg?user=yakukhno02)
+```
+
+Optional dashboard link:
+
+```md
+[Open Git Activity Dashboard](https://git-heatmap.vercel.app/YOUR_GITHUB_USERNAME)
+```
+
+Example:
+
+```md
+[Open Git Activity Dashboard](https://git-heatmap.vercel.app/yakukhno02)
+```
 
 ## Tech Stack
 
@@ -38,7 +78,7 @@ cd git-activity
 npm install
 ```
 
-Create `.env.local`
+Create `.env.local`:
 
 ```env
 GITHUB_TOKEN=your_github_token
