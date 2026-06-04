@@ -62,9 +62,12 @@ export default function HeatmapPage({initialUsername,}: Props) {
     }, [router, username, initialUsername]);
 
     useEffect(() => {
-        if (initialUsername) {
-            void loadActivity();
+        if (!initialUsername) {
+            setData([]);
+            return;
         }
+
+        void loadActivity();
     }, [initialUsername, loadActivity]);
 
     useEffect(() => {
