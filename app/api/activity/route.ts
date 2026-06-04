@@ -42,6 +42,17 @@ export async function GET(request: Request) {
 
     const result = await response.json();
 
+    if (!result.data?.user) {
+        return Response.json(
+            {
+                error: "User not found",
+            },
+            {
+                status: 404,
+            }
+        );
+    }
+
     const weeks =
         result.data.user
             .contributionsCollection
