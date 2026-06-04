@@ -10,7 +10,12 @@ export default function GithubUserForm({username, setUsername, onLoad, isLoading
         <div className="flex gap-3 mb-6">
             <input
                 value={username}
-                onChange={(event) => setUsername(event.target.value)}
+                onChange={(e) => {setUsername(e.target.value)}}
+                onKeyDown={(e) => {
+                    if (e.key === "Enter") {
+                        void onLoad();
+                    }
+                }}
                 placeholder="GitHub username"
                 className="
                     bg-neutral-900
