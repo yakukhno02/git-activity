@@ -144,7 +144,7 @@ export async function GET(request: Request) {
             }))
         );
 
-    const cellSize = 12;
+    const cellSize = 13;
     const gap = 3;
     const startX = 40;
     const startY = 75;
@@ -172,20 +172,20 @@ export async function GET(request: Request) {
     xmlns="http://www.w3.org/2000/svg"
     width="900"
     height="260"
-    viewBox="0 0 900 260"
+    viewBox="0 0 950 275"
 >
     <rect
-        width="850"
-        height="215"
+        width="920"
+        height="225"
         rx="18"
         fill="#050505"
     />
 
     <text
         x="40"
-        y="42"
+        y="45"
         fill="#ffffff"
-        font-size="28"
+        font-size="25"
         font-weight="700"
         font-family="Arial, sans-serif"
     >
@@ -197,27 +197,27 @@ export async function GET(request: Request) {
 <!-- Commits -->
 
 <rect
-    x="520"
+    x="565"
     y="20"
-    width="95"
-    height="42"
+    width="100"
+    height="45"
     rx="10"
     fill="#1a1a1a"
 />
 
 <text
-    x="532"
+    x="577"
     y="37"
     fill="#a1a1aa"
-    font-size="11"
+    font-size="12"
     font-family="Arial, sans-serif"
 >
     Commits
 </text>
 
 <text
-    x="532"
-    y="54"
+    x="577"
+    y="55"
     fill="#22c55e"
     font-size="18"
     font-weight="700"
@@ -229,16 +229,16 @@ export async function GET(request: Request) {
 <!-- PRs -->
 
 <rect
-    x="630"
+    x="675"
     y="20"
-    width="95"
-    height="42"
+    width="100"
+    height="45"
     rx="10"
     fill="#1a1a1a"
 />
 
 <text
-    x="642"
+    x="687"
     y="37"
     fill="#a1a1aa"
     font-size="11"
@@ -248,8 +248,8 @@ export async function GET(request: Request) {
 </text>
 
 <text
-    x="642"
-    y="54"
+    x="687"
+    y="55"
     fill="#3b82f6"
     font-size="18"
     font-weight="700"
@@ -261,16 +261,16 @@ export async function GET(request: Request) {
 <!-- Issues -->
 
 <rect
-    x="740"
+    x="785"
     y="20"
-    width="95"
-    height="42"
+    width="100"
+    height="45"
     rx="10"
     fill="#1a1a1a"
 />
 
 <text
-    x="752"
+    x="802"
     y="37"
     fill="#a1a1aa"
     font-size="11"
@@ -280,8 +280,8 @@ export async function GET(request: Request) {
 </text>
 
 <text
-    x="752"
-    y="54"
+    x="802"
+    y="55"
     fill="#ef4444"
     font-size="18"
     font-weight="700"
@@ -296,7 +296,7 @@ export async function GET(request: Request) {
 
     <text
         x="45"
-        y="200"
+        y="208"
         fill="#d4d4d8"
         font-size="16"
         font-family="Arial, sans-serif"
@@ -306,7 +306,7 @@ export async function GET(request: Request) {
 
     <text
         x="155"
-        y="200"
+        y="208"
         fill="#ffffff"
         font-size="16"
         font-weight="700"
@@ -316,18 +316,8 @@ export async function GET(request: Request) {
     </text>
 
     <text
-        x="145"
-        y="235"
-        fill="#71717a"
-        font-size="16"
-        font-family="Arial, sans-serif"
-    >
-        •
-    </text>
-
-    <text
         x="280"
-        y="200"
+        y="208"
         fill="#d4d4d8"
         font-size="16"
         font-family="Arial, sans-serif"
@@ -337,7 +327,7 @@ export async function GET(request: Request) {
 
     <text
         x="395"
-        y="200"
+        y="208"
         fill="#ffffff"
         font-size="16"
         font-weight="700"
